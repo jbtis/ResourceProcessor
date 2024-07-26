@@ -1,5 +1,3 @@
-import { Resource } from "./Resource";
-
 class Channel{
     constructor(id='undefined', speedMs = 0, bandwidth = 1000){
         this.id = id;

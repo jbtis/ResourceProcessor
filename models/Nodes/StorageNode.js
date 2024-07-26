@@ -1,4 +1,4 @@
-const Node = require('./Nodes/Node');
+const Node = require('./Node');
 
 class StorageNode extends Node {
   constructor(name, inputs = []) {

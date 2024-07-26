@@ -1,3 +1,4 @@
 const TIME_BETWEEN_QUERIES_MS = 500; 
+const PROGRAM_VERSION = '0.0.1';
 
-module.exports = { TIME_BETWEEN_QUERIES_MS };
+module.exports = { TIME_BETWEEN_QUERIES_MS, PROGRAM_VERSION };

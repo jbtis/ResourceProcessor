@@ -1,5 +1,5 @@
 const Node = require('./Node');
-const { Resource } = require('../Resource');
+const { Resource } = require('./Resource');
 
 class GeneratorNode extends Node {
   constructor(name, output, resourceType = '', executionTimeMs = 1000) {
