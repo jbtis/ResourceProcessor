@@ -1,6 +1,6 @@
-const Node = require('./Node');
+const BaseNode = require('./BaseNode');
 
-class StorageNode extends Node {
+class StorageNode extends BaseNode {
   constructor(name, inputs = []) {
     super(name, inputs, [], 0);
     this.storage = []; // Array to store collected resources

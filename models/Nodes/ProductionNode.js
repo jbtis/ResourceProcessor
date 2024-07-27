@@ -1,7 +1,7 @@
-const Node = require('./Node');
+const BaseNode = require('./BaseNode');
 const { Resource } = require('./Resource');
 
-class ProductionNode extends Node {
+class ProductionNode extends BaseNode {
   constructor(name, inputs = [], output, recipe = {}, executionTimeMs = 1000) {
     super(name, inputs, [output], executionTimeMs);
     this.recipe = recipe;
