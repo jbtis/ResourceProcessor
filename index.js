@@ -5,8 +5,6 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 const sim = new Simulator();
-sim.run();
-
 
 // Root route
 app.get('/', (req, res) => {

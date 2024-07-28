@@ -2,9 +2,10 @@ const BaseNode = require('./BaseNode');
 const { Resource } = require('./Resource');
 
 class ProductionNode extends BaseNode {
-  constructor(name, inputs = [], output, recipe = {}, executionTimeMs = 1000) {
-    super(name, inputs, [output], executionTimeMs);
+  constructor(name, inputs = [], output, recipe = {}, executionTimeS = 1) {
+    super(name, inputs, [output], executionTimeS);
     this.recipe = recipe;
+    this.productionCounter = 0;
   }
 
   // Method to check if all required resources are available
@@ -42,9 +43,10 @@ class ProductionNode extends BaseNode {
     while (this.isProducing) {
       if (this.areResourcesAvailable()) {
         this.consumeResources();
-        await this.sleep(this.executionTimeMs);
-        const id = 'TO_DO_GENERATE_ID'; // Replace with actual ID generation logic
-        const resource = new Resource(id);
+        await this.sleep(this.executionTimeS * 1000);
+        this.productionCounter += 1;
+        //const id = this.name + '.' + this.res
+        const resource = new Resource('test');
         console.log(`${this.name} produced ${resource.name}`);
         this.outputs[0].put(resource);
       } else {

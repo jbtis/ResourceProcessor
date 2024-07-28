@@ -2,9 +2,12 @@ const BaseNode = require('./BaseNode');
 const { Resource } = require('./Resource');
 
 class GeneratorNode extends BaseNode {
-  constructor(name, output, resourceType = '', executionTimeMs = 1000) {
-    super(name, [], [output], executionTimeMs);
+  constructor(name, output, resourceType, executionTimeS) {
+    super(name, [], [output], executionTimeS);
     this.resourceType = resourceType;
+
+    // Add stock for the only resource type of the generator
+    this.stock[resourceType] = []
   }
 
   addInput(channel) {
@@ -21,17 +24,11 @@ class GeneratorNode extends BaseNode {
 
     while (this.isProducing) {
       this.productionCounter += 1
-      const id = this.name + '.' + this.resourceType + '.' + this.productionCounter.toString(); // Replace with actual ID generation logic
+      const id = this.name + '.' + this.resourceType + '.' + this.productionCounter.toString(); 
       const resource = new Resource(id, this.resourceType);
-      console.log(`${this.name} produced ${this.resourceType}`);
-
-      if (this.outputs[0] !== null){
-        this.outputs[0].put(resource);
-      } else {
-        this.stockpile.push(resource);
-      }
-
-      await this.sleep(this.executionTimeMs);
+      console.log(`${this.name} produced ${this.resourceType} [${this.stock[this.resourceType].length}]`);
+      this.stock[this.resourceType].push(resource)
+      await this.sleep(this.executionTimeS * 1000);
     }
   }
 

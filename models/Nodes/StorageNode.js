@@ -1,9 +1,12 @@
 const BaseNode = require('./BaseNode');
 
 class StorageNode extends BaseNode {
-  constructor(name, inputs = []) {
-    super(name, inputs, [], 0);
-    this.storage = []; // Array to store collected resources
+  constructor(name, input=null, resourceType) {
+    super(name, [input], [], 0);
+    this.resourceType = resourceType;
+
+    // Add stock for the only resource type of the storage
+    this.stock[resourceType] = [];
   }
 
   addOutput(channel) {
@@ -14,20 +17,23 @@ class StorageNode extends BaseNode {
     throw new Error('StorageNode cannot have output channels.');
   }
 
-  // Method to collect resources from input channels
-  collectResources() {
-    for (const channel of this.inputs) {
-      while (channel.queue.length > 0) {
-        const resource = channel.take();
-        this.storage.push(resource);
-        console.log(`Collected ${resource.name} from ${channel.id}`);
-      }
+  addInput(channel) {
+    if (this.inputs.length >= 1) {
+      throw new Error('StorageNode cannot have more than one input channel.');
     }
+    super.addInput(channel);
+  }
+
+  addInputs(channels) {
+    if (this.inputs.length + channels.length > 1) {
+      throw new Error('StorageNode cannot have more than one input channel.');
+    }
+    super.addInputs(channels);
   }
 
   // Method to get the current storage
   getStorage() {
-    return this.storage;
+    return this.stock;
   }
 }
 

@@ -1,5 +1,5 @@
 class Resource{
-    constructor(id='undefined', type='undefined', unit='undefined'){
+    constructor(id, type, unit='undefined'){
         this.id = id;
         this.type = type;
         this.unit = unit;
