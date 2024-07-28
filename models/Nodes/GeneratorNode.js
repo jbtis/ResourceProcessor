@@ -23,11 +23,17 @@ class GeneratorNode extends BaseNode {
     console.log(`${this.name} has started production!`);
 
     while (this.isProducing) {
+
+      // Produce resource
       this.productionCounter += 1
       const id = this.name + '.' + this.resourceType + '.' + this.productionCounter.toString(); 
       const resource = new Resource(id, this.resourceType);
       console.log(`${this.name} produced ${this.resourceType} [${this.stock[this.resourceType].length}]`);
+
+      // Add resource to stock
       this.stock[this.resourceType].push(resource)
+
+      // Wait to try to produce next resource
       await this.sleep(this.executionTimeS * 1000);
     }
   }
