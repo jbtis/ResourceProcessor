@@ -44,20 +44,6 @@ class Simulator {
       this.listNodes();
     } else if (command.startsWith('del ')) {
       this.deleteNode(command);
-    } else if (command.startsWith('enable ')) {
-      const parts = command.split(' ');
-      if (parts.length === 2) {
-        this.startChannelById(parts[1]);
-      } else {
-        console.log('Invalid command format.');
-      }
-    } else if (command.startsWith('disable ')) {
-      const parts = command.split(' ');
-      if (parts.length === 2) {
-        this.stopChannelById(parts[1]);
-      } else {
-        console.log('Invalid command format.');
-      }
     } else {
       console.log('Invalid command');
     }
@@ -72,6 +58,10 @@ class Simulator {
            this.StorageNodes.some(node => node.name === name);
   }
 
+  channelExists(id) {
+    return this.Channels.some(channel => channel.id === id);
+  }
+  
   validateNodeName(name) {
     const valid = /^[a-zA-Z0-9_]+$/.test(name);
     if (!valid) {
@@ -215,7 +205,7 @@ class Simulator {
     const parts = command.split(' ');
     if (parts.length === 2) {
       const [_, target] = parts;
-
+  
       if (target === 'nodes' || target === 'channels' || target === 'all') {
         if (target === 'nodes') {
           this.startNodes();
@@ -227,19 +217,22 @@ class Simulator {
         }
       } else if (this.nodeExists(target)) {
         this.startNodeByName(target);
+      } else if (this.channelExists(target)) {
+        this.startChannelById(target);
       } else {
-        console.log('Invalid start target. Use "nodes", "channels", "all" or a valid node name.');
+        console.log('Invalid start target. Use "nodes", "channels", "all", a valid node name, or a valid channel ID.');
       }
     } else {
       console.log('Invalid command format');
     }
   }
+  
 
   checkStopCommand(command) {
     const parts = command.split(' ');
     if (parts.length === 2) {
       const [_, target] = parts;
-
+  
       if (target === 'nodes' || target === 'channels' || target === 'all') {
         if (target === 'nodes') {
           this.stopNodes();
@@ -251,8 +244,10 @@ class Simulator {
         }
       } else if (this.nodeExists(target)) {
         this.stopNodeByName(target);
+      } else if (this.channelExists(target)) {
+        this.stopChannelById(target);
       } else {
-        console.log('Invalid stop target. Use "nodes", "channels", "all" or a valid node name.');
+        console.log('Invalid stop target. Use "nodes", "channels", "all", a valid node name, or a valid channel ID.');
       }
     } else {
       console.log('Invalid command format');
